@@ -3,3 +3,6 @@ course-project/
 directives-start/
 routing-start/
 services-start/
+.DS_Store
+
+**/.vim
