@@ -1,1 +1,12 @@
 my-first-app/
+
+.DS_Store
+__MACOSX/
+basics-assignment-2-start/
+basics-assignment-3-start/
+cmp-databinding-start/
+directives-start/
+routing-start/
+services-start/
+the-basics-after-24/
+the-basics/
