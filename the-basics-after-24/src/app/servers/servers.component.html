@@ -1,0 +1,33 @@
+<label>Server Name</label>
+<!-- <input type="text" class="form-control" (input)="onUpdateServerName($event)" /> -->
+<!-- Instead of combining the value and an event to manipulate the input, -->
+<!-- we can use two-way-databinding with ngModel -->
+<input type="text" class="form-control" [(ngModel)]="serverName" />
+<!-- <p>{{ serverName }}</p> -->
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<!-- <p>{{allowNewServer}}</p> -->
+<!-- Instead of using the string interpolation, we can use the innerText like this: -->
+<!-- <p [innerText]="allowNewServer"></p> -->
+<!-- <p>{{ serverCreationStatus }}</p> -->
+<!-- We can conditionally render data, with the help of built-in directives, like -->
+<!-- this: -->
+<!-- <p *ngIf="serverCreated"> -->
+<!-- This will now behaves like an if/else statement -->
+<!-- <p *ngIf="serverCreated; else noServer"> -->
+<!-- Server was created, server name is {{ serverCreationStatus }} -->
+<!-- </p> -->
+<!-- We can also use a statement which will behave like an else statement -->
+<!-- <ng-template #noServer> -->
+<!-- <p>No server was created!</p> -->
+<!-- </ng-template> -->
+<p *ngIf="serverCreated">
+  Server was created, server name is {{ serverCreationStatus }}
+</p>
+<app-server *ngFor="let server of servers"></app-server>
+<!-- <app-server></app-server> -->

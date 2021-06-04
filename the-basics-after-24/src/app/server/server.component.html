@@ -1,0 +1,13 @@
+<!-- Double curly braces which means databinding where we can specify -->
+<!-- TypeScript expressions, like referencing to our property state in our class -->
+<!-- We can use everything that resolves in a string, we just need -->
+<!-- to make sure it will always be in one line only -->
+<!-- <p>{{ "Server" }} with ID {{ serverId }} is {{ serverStatus }}</p> -->
+<!-- We can also use methods call like this -->
+<!-- We can also output dynamic styles like this: -->
+<p
+  [ngStyle]="{ backgroundColor: getColor() }"
+  [ngClass]="{ online: serverStatus === 'online' }"
+>
+  {{ "Server" }} with ID {{ serverId }} is {{ getServerStatus() }}
+</p>

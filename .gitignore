@@ -6,3 +6,5 @@ services-start/
 .DS_Store
 
 **/.vim
+
+__MACOSX/
