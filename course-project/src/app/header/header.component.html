@@ -7,19 +7,23 @@
       <ul class="nav navbar-nav">
         <!-- $event will always refer to the event data, anywhere between -->
         <!-- the quotation marks of the event -->
-        <li><a href="#" (click)="onSelect('recipe')">Recipes</a></li>
-        <li>
-          <a href="#" (click)="onSelect('shopping-list')">Shopping List</a>
+        <!-- <li><a href="#" (click)="onSelect('recipe')">Recipes</a></li> -->
+        <!-- Conditionally attach active css to the element whenever the link
+                in this element or nested inside of it is active -->
+        <li routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>
+        <li routerLinkActive="active">
+          <!-- <a href="#" (click)="onSelect('shopping-list')">Shopping List</a> -->
+          <a routerLink="/shopping-list">Shopping List</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" appDropdown>
-          <a href="#" class="dropdown-toggle" role="button"
+          <a style="cursor: pointer" class="dropdown-toggle" role="button"
             >Manage <span class="caret"></span
           ></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Save Data</a></li>
-            <li><a href="#">Fetch Data</a></li>
+            <li><a style="cursor: pointer">Save Data</a></li>
+            <li><a style="cursor: pointer">Fetch Data</a></li>
           </ul>
         </li>
       </ul>

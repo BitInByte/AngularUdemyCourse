@@ -6,10 +6,13 @@
     <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-md-7">
-    <app-recipe-detail
-      *ngIf="selectedRecipe; else infoText"
-      [recipe]="selectedRecipe"
-    ></app-recipe-detail>
-    <ng-template #infoText><p>Please select a Recipe!</p></ng-template>
+    <!-- <app-recipe-detail -->
+    <!-- *ngIf="selectedRecipe; else infoText" -->
+    <!-- [recipe]="selectedRecipe" -->
+    <!-- ></app-recipe-detail> -->
+    <!-- <ng-template #infoText><p>Please select a Recipe!</p></ng-template> -->
+    <!-- This will be where the child components will be render via router -->
+    <!-- Since we specify childs in the router configuration -->
+    <router-outlet></router-outlet>
   </div>
 </div>

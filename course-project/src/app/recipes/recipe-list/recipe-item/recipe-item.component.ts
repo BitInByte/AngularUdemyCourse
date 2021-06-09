@@ -11,13 +11,16 @@ export class RecipeItemComponent implements OnInit {
   // This is how we can pass props in Angular
   @Input() recipe: Recipe;
   // @Output() recipeSelected = new EventEmitter<void>();
+  // We could also use our recipe service to get our recipe
+  // from there
+  @Input() index: number;
 
-  constructor(private recipeService: RecipeService) {}
+  // constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {}
 
-  onSelected() {
-    // this.recipeSelected.emit();
-    this.recipeService.recipeSelected.emit(this.recipe);
-  }
+  // onSelected() {
+  // // this.recipeSelected.emit();
+  // this.recipeService.recipeSelected.emit(this.recipe);
+  // }
 }

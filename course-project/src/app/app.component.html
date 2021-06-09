@@ -1,11 +1,14 @@
 <!-- We could also use the $event as second argument, if we had another value -->
 <!-- because, if we override the $event, we will not have access to is -->
-<app-header (featureSelected)="onNavigate($event)"></app-header>
+<!-- <app-header (featureSelected)="onNavigate($event)"></app-header> -->
+<app-header></app-header>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <app-recipes *ngIf="loadedFeature === 'recipe'"></app-recipes>
-      <app-shopping-list *ngIf="loadedFeature !== 'recipe'"></app-shopping-list>
+      <!-- <app-recipes *ngIf="loadedFeature === 'recipe'"></app-recipes> -->
+      <!-- <app-shopping-list *ngIf="loadedFeature !== 'recipe'"></app-shopping-list> -->
+      <!-- This is how we can inject our routes -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

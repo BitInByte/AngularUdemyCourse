@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
@@ -23,7 +24,11 @@ export class RecipeListComponent implements OnInit {
   // ),
   // ];
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     // Get a copy of our recipes from the service
@@ -33,4 +38,12 @@ export class RecipeListComponent implements OnInit {
   // onRecipeSelected(recipe: Recipe) {
   // this.recipeWasSelected.emit(recipe);
   // }
+
+  onNewRecipe() {
+    // Here, we always use an array to specify the path
+    // We also need to specify the second argument, the
+    // route in order to be able to tell Angular what is
+    // the route we're currently on
+    this.router.navigate(['new'], { relativeTo: this.route });
+  }
 }
