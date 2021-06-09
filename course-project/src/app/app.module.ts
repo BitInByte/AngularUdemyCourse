@@ -16,7 +16,7 @@ import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.compon
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 
 @NgModule({
-  // Components which will be used in this module
+  // Components, directives and pipes which will be used in this module
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -30,8 +30,12 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
     RecipeStartComponent,
     RecipeEditComponent,
   ],
+  // Importing other modules
   imports: [BrowserModule, AppRoutingModule],
+  // Services for dependency injection
   providers: [ShoppingListService],
+  // Where the app will start at first initialization
+  // Angular should be aware of this component
   bootstrap: [AppComponent],
 })
 export class AppModule {}
