@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -33,7 +34,13 @@ import { RecipeService } from './recipes/recipe.service';
     RecipeEditComponent,
   ],
   // Importing other modules
-  imports: [FormsModule, BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+  ],
   // Services for dependency injection
   providers: [ShoppingListService, RecipeService],
   // Where the app will start at first initialization

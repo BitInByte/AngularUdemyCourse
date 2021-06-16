@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
+import { RecipesResolverService } from './recipes/recipes-resolver.service';
 
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
@@ -24,8 +25,20 @@ const appRoutes: Routes = [
       // new should come first, otherwise, it will be treated
       // as an id instead of /new
       { path: 'new', component: RecipeEditComponent },
-      { path: ':id', component: RecipeDetailComponent },
-      { path: ':id/edit', component: RecipeEditComponent },
+      {
+        path: ':id',
+        component: RecipeDetailComponent,
+        // Resolver here to fetch data from a server
+        // before it gets rendered
+        resolve: [RecipesResolverService],
+      },
+      {
+        path: ':id/edit',
+        component: RecipeEditComponent,
+        // Resolver here to fetch data from a server
+        // before it gets rendered
+        resolve: [RecipesResolverService],
+      },
     ],
   }, // /recipes it will concat with the root path
   { path: 'shopping-list', component: ShoppingListComponent },
