@@ -6,7 +6,10 @@ import { RecipeService } from './recipe.service';
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css'],
-  providers: [RecipeService],
+  // If we navigate to other area, this component
+  // will be destroyed and so it's instances of this service
+  // we need to add it to the root module
+  // providers: [RecipeService],
 })
 export class RecipesComponent implements OnInit {
   // selectedRecipe: Recipe;

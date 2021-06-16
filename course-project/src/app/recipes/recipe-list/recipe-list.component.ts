@@ -1,5 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
@@ -8,9 +15,10 @@ import { RecipeService } from '../recipe.service';
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css'],
 })
-export class RecipeListComponent implements OnInit {
+export class RecipeListComponent implements OnInit, OnDestroy {
   @Output() recipeWasSelected = new EventEmitter<Recipe>();
   recipes: Recipe[];
+  subscription: Subscription;
   // recipes: Recipe[] = [
   // new Recipe(
   // 'A Test Recipe',
@@ -31,6 +39,12 @@ export class RecipeListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Always listening to changes on our service
+    this.subscription = this.recipeService.recipesChanged.subscribe(
+      (recipes: Recipe[]) => {
+        this.recipes = recipes;
+      }
+    );
     // Get a copy of our recipes from the service
     this.recipes = this.recipeService.getRecipes();
   }
@@ -45,5 +59,9 @@ export class RecipeListComponent implements OnInit {
     // route in order to be able to tell Angular what is
     // the route we're currently on
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
