@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponent } from '../shared/alert/alert.component';
+import { PlaceHolderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthService, AuthResponseData } from './auth.service';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy {
   // store if the user is currently in login
   // or signup mode and we adjust the UI but
   // also what we do in the form gets submitted
@@ -16,8 +23,18 @@ export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
+  // Will find the first occurrence of this directive
+  // in the DOM
+  @ViewChild(PlaceHolderDirective, { static: false })
+  alertHost: PlaceHolderDirective;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  private closeSub: Subscription;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
   onSwitchMode() {
     // reverse the value
@@ -70,10 +87,48 @@ export class AuthComponent {
         // this.error = 'This email exists already!';
         // }
         this.error = errorMessage;
+        this.showErrorAlert(errorMessage);
         this.isLoading = false;
       }
     );
 
     form.reset();
+  }
+
+  onHandleError() {
+    this.error = null;
+  }
+
+  ngOnDestroy() {
+    if (this.closeSub) {
+      this.closeSub.unsubscribe();
+    }
+  }
+
+  private showErrorAlert(message: string) {
+    // We need to use the component factory
+    // to instantiate our component
+    const alertCmpFactory =
+      this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+
+    // viewContainerRef is an object that allows us to interact
+    // with the place in the DOM where this directive lives
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    // Clear everything we may have already in that directive in the DOM
+    hostViewContainerRef.clear();
+
+    // Create a new alert in that directive reference
+    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+
+    // The instance should have the properties we added
+    // to our component
+    componentRef.instance.message = message;
+
+    // EventEmitter is based on rxjs so, we can use
+    // subscribe here to listen to our @Output event
+    this.closeSub = componentRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
   }
 }
