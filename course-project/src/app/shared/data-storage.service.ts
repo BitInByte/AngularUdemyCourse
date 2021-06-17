@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipeService } from '../recipes/recipe.service';
 
@@ -14,7 +15,11 @@ import { RecipeService } from '../recipes/recipe.service';
 export class DataStorageService {
   readonly url =
     'https://ng-course-recipe-book-2eaa3-default-rtdb.firebaseio.com/recipes.json';
-  constructor(private http: HttpClient, private recipeService: RecipeService) {}
+  constructor(
+    private http: HttpClient,
+    private recipeService: RecipeService,
+    private authService: AuthService
+  ) {}
 
   // storeRecipes(recipes: Recipe[]) {
   storeRecipes() {
@@ -34,21 +39,58 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    return this.http.get<Recipe[]>(this.url).pipe(
-      map((recipes) => {
-        return recipes.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        });
-      }),
-      tap((recipes) => {
-        this.recipeService.setRecipes(recipes);
-      })
-    );
+    // take allows us to specify that we want
+    // to use a value from the subject once
+    // (x) times and then we want to automatically
+    // unsubscibe
+    // return this.authService.user.pipe(
+    // take(1),
+    // // Take the value we want, unsubscribe to it and
+    // // then override with the http observable
+    // // Wait until the user observable completes
+    // exhaustMap((user) => {
+    // // exhaustMap will then return our http observable
+    // // as soon as the user observable completes, replacing
+    // // it
+    // return this.http.get<Recipe[]>(this.url, {
+    // params: new HttpParams().set('auth', user.token),
+    // });
+    // }),
+    // // We can then chain the other http pipes
+    // map((recipes) => {
+    // return recipes.map((recipe) => {
+    // return {
+    // ...recipe,
+    // ingredients: recipe.ingredients ? recipe.ingredients : [],
+    // };
+    // });
+    // }),
+    // tap((recipes) => {
+    // this.recipeService.setRecipes(recipes);
+    // })
+    // );
+    //
+    // Since we are now using interceptor, we don't
+    // need all that logic
+
+    return this.http
+      .get<Recipe[]>(this.url)
+
+      .pipe(
+        map((recipes) => {
+          return recipes.map((recipe) => {
+            return {
+              ...recipe,
+              ingredients: recipe.ingredients ? recipe.ingredients : [],
+            };
+          });
+        }),
+        tap((recipes) => {
+          this.recipeService.setRecipes(recipes);
+        })
+      );
     // .subscribe((recipes) => {
-    // // console.log(recipes);
+    // console.log(recipes);
     // this.recipeService.setRecipes(recipes);
     // });
   }
